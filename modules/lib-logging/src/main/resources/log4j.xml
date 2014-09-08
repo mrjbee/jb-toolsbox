@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+
+    <Appenders>
+
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg %ex %n "/>
+        </Console>
+
+        <RollingFile name="FRAMEWORKS"
+                     fileName="${bundle:Application:app.id}_logs/framework.log"
+                     filePattern="${bundle:Application:app.id}_logs/framework-%i.log">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg %ex %n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="5.000 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="5"/>
+        </RollingFile>
+
+        <RollingFile name="CORE"
+                     fileName="${bundle:Application:app.id}_logs/core.log"
+                     filePattern="${bundle:Application:app.id}_logs/core-%i.log">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg %ex %n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="5.000 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="5"/>
+        </RollingFile>
+        <RollingFile name="FEATURE"
+                     fileName="${bundle:Application:app.id}_logs/feature.log"
+                     filePattern="${bundle:Application:app.id}_logs/feature-%i.log">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg %ex %n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="5.000 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="5"/>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+
+        <logger name="toolsbox.feature" level="info" additivity="false">
+            <appender-ref ref="FEATURE"/>
+        </logger>
+        <logger name="toolsbox" level="info" additivity="false">
+            <appender-ref ref="CORE"/>
+        </logger>
+        <logger name="org" level="warn" additivity="true">
+            <appender-ref ref="FRAMEWORKS"/>
+        </logger>
+        <logger name="com" level="warn" additivity="true">
+            <appender-ref ref="FRAMEWORKS"/>
+        </logger>
+
+<!--
+        <logger name="org.hibernate.transaction" level="debug" additivity="true">
+            <appender-ref ref="FRAMEWORKS"/>
+        </logger>
+        <logger name="org.springframework.transaction" level="debug" additivity="true">
+            <appender-ref ref="FRAMEWORKS"/>
+        </logger>
+-->
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+        </Root>
+    </Loggers>
+</Configuration>
